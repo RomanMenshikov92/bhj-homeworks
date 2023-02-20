@@ -48,7 +48,7 @@ class Chatbot {
     });
 
     this.widgetInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && this.widgetInput.value.length > 0) {
+      if (e.key === "Enter" && this.widgetInput.value.length > 0 && this.widgetInput.value.replace(/^\s+/,'')) {
         // добавляем в окно - соббщения чатбота
         this.widgetMessage.innerHTML += `
           <div class="message message_client">
