@@ -42,7 +42,7 @@ btn.addEventListener("click", function (e) {
   e.preventDefault(); // отмена стандартного действия
   // условие если инут непустой то вызываем функции добавления списка дел и
   // обновления localStorage и удаления списка дел через кнопку
-  if (input.value) {
+  if (input.value.trim()) {
     addHTMLTask(input.value);
     updateLocalStorage(input.value, null);
     deleteBtnTask();
