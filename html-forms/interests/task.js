@@ -13,8 +13,14 @@ function searchCheckbox() {
         .querySelectorAll(".interests_active .interest__check");
       // условие, если поставить все галочки выведет все иначе снимутся все
       treeInterest[i].checked
-        ? childCheckbox.forEach((elem) => (elem.checked = true))
-        : childCheckbox.forEach((elem) => (elem.checked = false));
+        ? childCheckbox.forEach((elem) => {
+            elem.checked = true;
+            elem.indeterminate = false;
+          })
+        : childCheckbox.forEach((elem) => {
+            elem.checked = false;
+            elem.indeterminate = false;
+          });
       // поиск ближайшего элемента родителя
       let parentActive = treeInterest[i].closest(".interests_active");
       // проверка если есть родитель то изменяем чекбоксы через функцию
