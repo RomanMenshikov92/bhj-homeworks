@@ -1,23 +1,23 @@
 // Объявление переменных
-let loader = document.getElementById("loader");
-let items = document.getElementById("items");
+const loader = document.getElementById("loader");
+const items = document.getElementById("items");
 
 // // парсинг из localStorage
-// let localStorageCurrency = JSON.parse(localStorage.getItem("valute"));
+let localStorageCurrency = JSON.parse(localStorage.getItem("valute"));
 
 // создание объекта запроса
 let xnr = new XMLHttpRequest();
 
 // проверка на localStorage
-// if (localStorageCurrency != null) {
-//   // удаляет класс активности
-//   loader.classList.remove("loader_active");
-//   // перебираем через цикл
-//   for (let currency in localStorageCurrency) {
-//     // вызов функции на разметку в DOM
-//     showExchangeRate(localStorageCurrency[currency]);
-//   }
-// }
+if (localStorageCurrency != null) {
+  // удаляет класс активности
+  loader.classList.remove("loader_active");
+  // перебираем через цикл
+  for (let currency in localStorageCurrency) {
+    // вызов функции на разметку в DOM
+    showExchangeRate(localStorageCurrency[currency]);
+  }
+}
 
 // метод запроса
 let method = "GET";
@@ -31,22 +31,29 @@ xnr.addEventListener("readystatechange", () => {
   // если состояние запроса успешно
   // то удаляем класс активности
   if (xnr.readyState === xnr.DONE) {
-    loader.classList.remove("loader_active");
-    // переменные на json ответа сервера
-    let currencyListJSON = JSON.parse(xnr.responseText);
-    let pathListCurrency = currencyListJSON.response.Valute;
+    if (xnr.status === 200) {
+      console.log("Хорошо");
+      loader.classList.remove("loader_active");
+      // переменные на json ответа сервера
+      let currencyListJSON = JSON.parse(xnr.responseText);
+      let pathListCurrency = currencyListJSON.response.Valute;
 
-    // // запись valute в localStorage
-    // let localData = JSON.stringify(pathListCurrency);
-    // localStorage.setItem("valute", localData);
+      // // запись valute в localStorage
+      let localData = JSON.stringify(pathListCurrency);
+      localStorage.setItem("valute", localData);
 
-    // очистка страницы от курсов валют
-    items.innerHTML = "";
-    // перебираем через цикл и находим каждый ключ и значение
-    for (let currency in pathListCurrency) {
-      // console.log(pathListCurrency[currency]);
-      // вызов функции на показ в DOM дереве с параметрами
-      showExchangeRate(pathListCurrency[currency]);
+      // очистка страницы от курсов валют
+      items.innerHTML = "";
+      // перебираем через цикл и находим каждый ключ и значение
+      for (let currency in pathListCurrency) {
+        // console.log(pathListCurrency[currency]);
+        // вызов функции на показ в DOM дереве с параметрами
+        showExchangeRate(pathListCurrency[currency]);
+      }
+    } else if (xnr.status === 404) {
+      console.log("запрашиваемый ресурс не найден на сервере");
+    } else if (xnr.status === 500) {
+      console.log("произошла ошибка на стороне сервера");
     }
   }
 });
