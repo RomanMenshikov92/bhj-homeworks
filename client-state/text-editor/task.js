@@ -7,14 +7,14 @@ btnClear.id = "btn__clear";
 btnClear.textContent = "Очистка текста";
 card.appendChild(btnClear);
 // парсинг из localStorage
-let textLocalStorage = JSON.parse(localStorage.getItem("textarea"));
+let textLocalStorage = localStorage.getItem("textarea");
 // проверка на localStorage
 if (textLocalStorage) {
   editor.value = textLocalStorage;
 }
 // вешаем событие на ввод текста в окне и сохраняем запись в localStorage
 editor.addEventListener("input", function () {
-  localStorage.setItem("textarea", JSON.stringify(editor.value));
+  localStorage.setItem("textarea", editor.value);
 });
 // вешаем событие на клик очистки текста
 btnClear.addEventListener("click", function () {

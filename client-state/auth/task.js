@@ -24,7 +24,7 @@ signinForm.addEventListener("submit", function (e) {
   // отправка запроса
   xhr.send(formData);
   // вешаем событие на состояние запроса
-  xhr.addEventListener("readystatechange", () => {
+  xhr.addEventListener("load", () => {
     // проверка на успешность
     if (xhr.readyState === xhr.DONE) {
       // переменная ответа сервера JSON
@@ -36,10 +36,11 @@ signinForm.addEventListener("submit", function (e) {
         // вызов функции авторизации
         authorization(auth.user_id);
       } else {
-        // переменная на поле ввода
-        let value = document.querySelectorAll(".control");
-        // очистка поля ввода
-        value.forEach((element) => (element.value = ""));
+        // // переменная на поле ввода
+        // let value = document.querySelectorAll(".control");
+        // // очистка поля ввода
+        // value.forEach((element) => (element.value = ""));
+        signinForm.reset();
         // выводим сообщение об ошибки
         alert("Неверный логин/пароль");
       }
@@ -75,4 +76,3 @@ function authorization(id) {
     });
   }
 }
-
